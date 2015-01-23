@@ -16,6 +16,7 @@ requirejs(['pixutl', 'domReady'], function (pixutl, domReady) {
 	context      = canvas.getContext('2d'),
 	width = 320,
 	height = 0;
+	window.GREY = true; //global greyscale trigger
  
 	navigator.getMedia = ( navigator.getUserMedia ||
 		navigator.webkitGetUserMedia ||
@@ -50,6 +51,7 @@ requirejs(['pixutl', 'domReady'], function (pixutl, domReady) {
 			canvas.setAttribute('height', height);
 		}
 	}, false);
+	
 	video.addEventListener('play',function() {
 
 		var i = window.setInterval(function() {
@@ -63,18 +65,33 @@ requirejs(['pixutl', 'domReady'], function (pixutl, domReady) {
 				var rgba = [0,0,0,0];	
 				pixutl.drawRectCustom(imageData, k*sq_size, l*sq_size, (k+1)*sq_size, (l+1)*sq_size, function(imageData, x, y){
 					var index = (x + y * imageData.width) * 4;
-					rgba[0] += imageData.data[index];
-					rgba[1] += imageData.data[index+1];
-					rgba[2] += imageData.data[index+2];
-//					rgba[3] += imageData.data[index+3];
+					if (window.GREY) {
+						var g = (imageData.data[index]
+								 +imageData.data[index+1]
+								 +imageData.data[index+2]
+								 // +imageData.data[index+3]
+								 )/4; 
+						rgba[0] += g;
+						rgba[1] += g;
+						rgba[2] += g;
+						// rgba[3] += g;
+					} else {
+						rgba[0] += imageData.data[index];
+						rgba[1] += imageData.data[index+1];
+						rgba[2] += imageData.data[index+2];
+						rgba[3] += imageData.data[index+3];
+					}
 				});
+
+				// if (grey) {
+				// };
 
 				pixutl.drawRectCustom(imageData, k*sq_size, l*sq_size, (k+1)*sq_size, (l+1)*sq_size, function(imageData, x, y){
 					var index = (x + y * imageData.width) * 4;
 					imageData.data[index]   = rgba[0]/(k+l)|1;
 					imageData.data[index+1] = rgba[1]/(k+l)|1;
 					imageData.data[index+2] = rgba[2]/(k+l)|1;
-//					imageData.data[index+3] = rgba[3]/(k+l)|1;
+					// imageData.data[index+3] = rgba[3]/(k+l)|1;
 				});
 
 			});
@@ -82,7 +99,7 @@ requirejs(['pixutl', 'domReady'], function (pixutl, domReady) {
 			context.putImageData(imageData, 0, 0);
 
 		},
-		40);
+		25);
 
 	},false);
 	

@@ -3,12 +3,23 @@
 <head>
 	<title></title>
 	<link rel="stylesheet" href="public/style.css"></link>
+	<!--[if lt IE 9]>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"><a href="https://www.google.com/chrome/">GET CHROME!</a></script>
+	<![endif]-->
+  	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 </head>
 <body>
+	<!--[if lt IE 9]><h1><a href="https://www.google.com/chrome/">Download Chrome</a></h1>
+	<![endif]-->
 	<div id="container">
-		<video id="video"></video>
+		<video src="http://placekitten.com/g/320/261" id="video"></video>
+		<canvas src="http://placekitten.com/g/320/261" id="canvas"></canvas>
+
+	</div>
 		<button id="startbutton">Take photo</button>
-		<canvas id="canvas"></canvas>
+	<div id="container">
+		<img src="http://placekitten.com/g/320/261" id="photo" alt="photo">
 	</div>
 
 	<script  data-main="src/main" type="text/javascript" src="public/require.min.js"></script>

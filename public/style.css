@@ -1,24 +1,38 @@
 html {
-    background: #111111;
     height: 100%;
-    background: linear-gradient( #333, #000);
+    background: -webkit-linear-gradient(left,red,orange,yellow,green,blue,indigo,violet);
+    background: -o-linear-gradient(left,red,orange,yellow,green,blue,indigo,violet);
+    background: -moz-linear-gradient(left,red,orange,yellow,green,blue,indigo,violet);
+    background: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='green', endColorstr='indigo',GradientType=1 );
 }
-video, canvas, #startbutton {
+video, canvas, img {
     display: block;
+    border: 10px solid;
+    border-radius: 1em;
+}
+video {
     float: left;
-    border: 10px solid #fff;
-    border-radius: 10px;
+}
+canvas {
+    float: right;
+}
+img {   
+    display: block;
+    margin: auto auto;
 }
 #startbutton {
+    clear: both;
     background: green;
     border: none;
     color: #fff;
-    margin: 100px 20px 20px 20px;
+    display:block;
+    margin: auto auto;
     padding: 10px 20px;
     font-size: 20px;
 }
 #container {
     overflow: hidden;
-    width: 880px;
-    margin: 100px auto;
+    width: 760px;
+    margin: 60px auto;
 }

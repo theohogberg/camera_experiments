@@ -4,16 +4,19 @@ requirejs.config({
 	}
 });
 
-requirejs(['pixelutil'], function (pixelutil) {
+requirejs(['pixutl', 'domReady'], function (pixutl, domReady) {
+  domReady(function () {
+
 
 	var streaming = false,
 	video        = document.querySelector('#video'),
 	canvas       = document.querySelector('#canvas'),
+    photo        = document.querySelector('#photo'),
 	startbutton  = document.querySelector('#startbutton'),
 	context      = canvas.getContext('2d'),
 	width = 320,
 	height = 0;
-
+ 
 	navigator.getMedia = ( navigator.getUserMedia ||
 		navigator.webkitGetUserMedia ||
 		navigator.mozGetUserMedia ||
@@ -48,20 +51,48 @@ requirejs(['pixelutil'], function (pixelutil) {
 		}
 	}, false);
 	video.addEventListener('play',function() {
-		var i = window.setTimeout(function() {
-		// var i = window.setInterval(function() {
 
+		var i = window.setInterval(function() {
+			
 			context.drawImage(video, 0, 0, canvas.width, canvas.height);
+			
 			var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-		
-			pixelutil.drawOrModifyRect(imageData, 0, 0, 3, 3, [255, 255, 0, 255]);
-		
+
+			pixutl.executeFnSquare(imageData, 8, function(imageData, sq_size, k, l){
+
+				var rgba = [0,0,0,0];	
+				pixutl.drawRectCustom(imageData, k*sq_size, l*sq_size, (k+1)*sq_size, (l+1)*sq_size, function(imageData, x, y){
+					var index = (x + y * imageData.width) * 4;
+					rgba[0] += imageData.data[index];
+					rgba[1] += imageData.data[index+1];
+					rgba[2] += imageData.data[index+2];
+//					rgba[3] += imageData.data[index+3];
+				});
+
+				pixutl.drawRectCustom(imageData, k*sq_size, l*sq_size, (k+1)*sq_size, (l+1)*sq_size, function(imageData, x, y){
+					var index = (x + y * imageData.width) * 4;
+					imageData.data[index]   = rgba[0]/(k+l)|1;
+					imageData.data[index+1] = rgba[1]/(k+l)|1;
+					imageData.data[index+2] = rgba[2]/(k+l)|1;
+//					imageData.data[index+3] = rgba[3]/(k+l)|1;
+				});
+
+			});
+
 			context.putImageData(imageData, 0, 0);
 
-		},50);
+		},
+		40);
+
 	},false);
+	
+
+	startbutton.onclick=function(){
+		var data = canvas.toDataURL('image/png');
+		photo.setAttribute('src', data);		
+	}
 
 
 
-
+  });
 });

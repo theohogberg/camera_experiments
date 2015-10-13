@@ -1,5 +1,4 @@
 Utils for DataImage experiments
 ===============================
 
-# Demo [here](http://thoggy.github.io/camera_experiments/)
-
+## [Demo](http://theodorhogberg.github.io/camera_experiments/)
